@@ -21,16 +21,17 @@
             min-height: 100vh;
             display: flex;
             justify-content: center;
-            padding: 0;
+            padding: 40px 16px;
         }
 
         .page-wrapper {
             width: 100%;
             max-width: 700px;
             background: #fff;
-            min-height: 100vh;
+            margin: auto 0;
             padding: 40px 36px 48px;
             box-shadow: 0 0 40px rgba(0, 0, 0, 0.06);
+            border-radius: 16px;
         }
 
         /* Header */
@@ -141,31 +142,96 @@
             border-color: #b8a58a;
         }
 
-        .swap-btn {
-            width: 42px;
-            height: 48px;
-            border: none;
-            background: none;
-            cursor: pointer;
-            font-size: 20px;
+        /* Target currency section */
+        .target-section {
+            margin-bottom: 24px;
+        }
+
+        .target-label {
+            font-size: 12px;
             color: #888;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .target-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .target-chip {
             display: flex;
             align-items: center;
-            justify-content: center;
-            transition: color 0.2s;
-            flex-shrink: 0;
+            gap: 6px;
+            height: 36px;
+            padding: 0 6px 0 14px;
+            border: 1.5px solid #b8a58a;
+            border-radius: 8px;
+            background: #faf5ee;
+            font-size: 14px;
+            color: #8b6914;
+            font-weight: 500;
         }
 
-        .swap-btn:hover {
-            color: #333;
+        .target-chip-remove {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #c49a6c;
+            font-size: 18px;
+            line-height: 1;
+            padding: 0 4px;
+            border-radius: 4px;
+            transition: all 0.15s;
         }
 
-        /* Result card */
+        .target-chip-remove:hover {
+            color: #8b6914;
+            background: rgba(139, 105, 20, 0.1);
+        }
+
+        .add-currency-select {
+            height: 36px;
+            border: 1.5px dashed #d0ccc6;
+            border-radius: 8px;
+            padding: 0 28px 0 10px;
+            font-size: 13px;
+            font-family: inherit;
+            color: #999;
+            background: #fff;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            outline: none;
+            transition: border-color 0.2s;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23bbb' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+        }
+
+        .add-currency-select:hover {
+            border-color: #b8a58a;
+        }
+
+        .add-currency-select:focus {
+            border-color: #b8a58a;
+        }
+
+        /* Result cards */
+        .result-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
         .result-card {
             background: #1a1a1a;
             border-radius: 14px;
             padding: 28px 28px 20px;
-            margin-bottom: 28px;
             color: #fff;
             overflow: hidden;
         }
@@ -269,88 +335,6 @@
             color: #d4a054;
         }
 
-        /* Multi-currency results */
-        .multi-currency-section {
-            margin-bottom: 28px;
-        }
-
-        .multi-currency-label {
-            font-size: 12px;
-            color: #c49a6c;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-            margin-bottom: 10px;
-        }
-
-        .multi-currency-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-        }
-
-        .multi-currency-card {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border: 1.5px solid #e8e4df;
-            border-radius: 10px;
-            padding: 12px 14px;
-            transition: border-color 0.2s;
-        }
-
-        .multi-currency-card:hover {
-            border-color: #c9bfb0;
-        }
-
-        .multi-currency-card .mc-info {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-            min-width: 0;
-            flex: 1;
-        }
-
-        .multi-currency-card .mc-code {
-            font-size: 11px;
-            color: #c49a6c;
-            font-weight: 600;
-            letter-spacing: 0.3px;
-        }
-
-        .multi-currency-card .mc-amount {
-            font-size: 16px;
-            font-weight: 700;
-            color: #1a1a1a;
-            font-family: "SF Mono", "Fira Code", "Fira Mono", "Roboto Mono", "Courier New", monospace;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .mc-copy-btn {
-            background: none;
-            border: 1.5px solid #e0dcd8;
-            border-radius: 6px;
-            color: #888;
-            cursor: pointer;
-            font-size: 12px;
-            padding: 4px 8px;
-            margin-left: 8px;
-            transition: all 0.2s;
-            white-space: nowrap;
-            flex-shrink: 0;
-        }
-
-        .mc-copy-btn:hover {
-            border-color: #b8a58a;
-            color: #333;
-        }
-
-        .mc-copy-btn.copied {
-            border-color: #22c55e;
-            color: #16a34a;
-        }
-
         /* Presets */
         .presets-section {
             margin-bottom: 24px;
@@ -438,8 +422,14 @@
 
         /* Responsive */
         @media (max-width: 600px) {
+            body {
+                padding: 0;
+            }
+
             .page-wrapper {
+                border-radius: 0;
                 padding: 24px 18px 36px;
+                margin: 0;
             }
 
             .input-row {
@@ -452,12 +442,7 @@
             }
 
             .field-group.currency {
-                width: calc(50% - 26px);
                 flex: 1;
-            }
-
-            .swap-btn {
-                width: 32px;
             }
 
             .result-digits {
@@ -470,10 +455,6 @@
 
             .ref-grid {
                 grid-template-columns: repeat(2, 1fr);
-            }
-
-            .multi-currency-grid {
-                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -500,32 +481,16 @@
                 <label>从 FROM</label>
                 <select class="currency-select" id="fromCurrency"></select>
             </div>
-            <button class="swap-btn" id="swapBtn" title="交换货币">⇄</button>
-            <div class="field-group currency">
-                <label>到 TO</label>
-                <select class="currency-select" id="toCurrency"></select>
-            </div>
         </div>
 
-        <!-- Result Card -->
-        <div class="result-card">
-            <div class="result-amount">
-                <div class="result-digits" id="resultDigits"></div>
-                <span class="result-currency-label" id="resultCurrencyLabel">USD</span>
-                <button class="copy-btn" id="copyBtn" title="复制结果">复制</button>
-            </div>
-            <div class="result-detail" id="resultDetail"></div>
-            <div class="result-footer">
-                <span class="rate-info" id="rateInfo"></span>
-                <span class="update-info" id="updateInfo"></span>
-            </div>
+        <!-- Target Currencies -->
+        <div class="target-section">
+            <div class="target-label">到 TO</div>
+            <div class="target-chips" id="targetChips"></div>
         </div>
 
-        <!-- Multi-currency Results -->
-        <div class="multi-currency-section">
-            <div class="multi-currency-label">多币种换算 MULTI-CURRENCY</div>
-            <div class="multi-currency-grid" id="multiCurrencyGrid"></div>
-        </div>
+        <!-- Result Cards -->
+        <div class="result-cards" id="resultCards"></div>
 
         <!-- Presets -->
         <div class="presets-section">
@@ -604,47 +569,39 @@
         let rateDate = BUILTIN_DATE;
         let isLive = false;
         let currentAmount = 1;
+        let targetCurrencies = ['USD'];
+
+        // Per-card digit animation tracking
+        const prevDigitCharsMap = new Map();
 
         // ===================== DOM refs =====================
         const amountInput = document.getElementById('amountInput');
         const fromCurrency = document.getElementById('fromCurrency');
-        const toCurrency = document.getElementById('toCurrency');
-        const swapBtn = document.getElementById('swapBtn');
-        const resultDigits = document.getElementById('resultDigits');
-        const resultCurrencyLabel = document.getElementById('resultCurrencyLabel');
-        const resultDetail = document.getElementById('resultDetail');
-        const rateInfo = document.getElementById('rateInfo');
-        const updateInfo = document.getElementById('updateInfo');
+        const targetChips = document.getElementById('targetChips');
+        const resultCardsContainer = document.getElementById('resultCards');
         const statusDot = document.getElementById('statusDot');
         const statusText = document.getElementById('statusText');
         const presetsRow = document.getElementById('presetsRow');
         const refGrid = document.getElementById('refGrid');
         const footerNote = document.getElementById('footerNote');
-        const copyBtn = document.getElementById('copyBtn');
-        const multiCurrencyGrid = document.getElementById('multiCurrencyGrid');
-
-        // Track latest converted value for copy
-        let lastConvertedRaw = 0;
 
         // ===================== Init =====================
         function init() {
-            populateCurrencySelects();
+            populateFromSelect();
             buildPresets();
             fromCurrency.value = 'CNY';
-            toCurrency.value = 'USD';
             amountInput.value = '1';
             currentAmount = 1;
+            buildTargetChips();
             fetchRates();
             calculate();
             bindEvents();
         }
 
-        function populateCurrencySelects() {
+        function populateFromSelect() {
             CURRENCIES.forEach(c => {
-                const opt1 = new Option(`${c.code} ${c.name}`, c.code);
-                const opt2 = new Option(`${c.code} ${c.name}`, c.code);
-                fromCurrency.add(opt1);
-                toCurrency.add(opt2);
+                const opt = new Option(`${c.code} ${c.name}`, c.code);
+                fromCurrency.add(opt);
             });
         }
 
@@ -671,30 +628,98 @@
             });
         }
 
+        // ===================== Target Currency Management =====================
+        function buildTargetChips() {
+            targetChips.innerHTML = '';
+
+            // Render each selected target as a chip
+            targetCurrencies.forEach(code => {
+                const curr = CURRENCIES.find(c => c.code === code);
+                if (!curr) return;
+                const chip = document.createElement('span');
+                chip.className = 'target-chip';
+                chip.textContent = `${curr.code} ${curr.name}`;
+
+                if (targetCurrencies.length > 1) {
+                    const removeBtn = document.createElement('button');
+                    removeBtn.className = 'target-chip-remove';
+                    removeBtn.textContent = '\u00d7';
+                    removeBtn.title = '移除';
+                    removeBtn.addEventListener('click', () => removeTarget(code));
+                    chip.appendChild(removeBtn);
+                }
+
+                targetChips.appendChild(chip);
+            });
+
+            // Render the "add currency" dropdown
+            const availableCurrencies = CURRENCIES.filter(
+                c => c.code !== fromCurrency.value && !targetCurrencies.includes(c.code)
+            );
+
+            if (availableCurrencies.length > 0) {
+                const addSelect = document.createElement('select');
+                addSelect.className = 'add-currency-select';
+                const placeholder = new Option('\uff0b \u6dfb\u52a0\u5e01\u79cd', '');
+                placeholder.disabled = true;
+                placeholder.selected = true;
+                addSelect.add(placeholder);
+
+                availableCurrencies.forEach(c => {
+                    addSelect.add(new Option(`${c.code} ${c.name}`, c.code));
+                });
+
+                addSelect.addEventListener('change', () => {
+                    if (addSelect.value) {
+                        addTarget(addSelect.value);
+                    }
+                });
+
+                targetChips.appendChild(addSelect);
+            }
+        }
+
+        function addTarget(code) {
+            if (!targetCurrencies.includes(code) && code !== fromCurrency.value) {
+                targetCurrencies.push(code);
+                buildTargetChips();
+                calculate();
+            }
+        }
+
+        function removeTarget(code) {
+            if (targetCurrencies.length <= 1) return;
+            targetCurrencies = targetCurrencies.filter(c => c !== code);
+            prevDigitCharsMap.delete(code);
+            buildTargetChips();
+            calculate();
+        }
+
+        function ensureNoFromInTargets(fromCode) {
+            if (targetCurrencies.includes(fromCode)) {
+                targetCurrencies = targetCurrencies.filter(c => c !== fromCode);
+                if (targetCurrencies.length === 0) {
+                    const fallback = CURRENCIES.find(c => c.code !== fromCode);
+                    if (fallback) targetCurrencies.push(fallback.code);
+                }
+            }
+        }
+
         // ===================== Events =====================
         function bindEvents() {
             amountInput.addEventListener('input', onAmountInput);
             amountInput.addEventListener('focus', () => {
-                // Select all text on focus for convenience
                 setTimeout(() => amountInput.select(), 0);
             });
-            fromCurrency.addEventListener('change', calculate);
-            toCurrency.addEventListener('change', calculate);
-            swapBtn.addEventListener('click', () => {
-                const tmp = fromCurrency.value;
-                fromCurrency.value = toCurrency.value;
-                toCurrency.value = tmp;
+            fromCurrency.addEventListener('change', () => {
+                ensureNoFromInTargets(fromCurrency.value);
+                buildTargetChips();
                 calculate();
-            });
-            copyBtn.addEventListener('click', () => {
-                copyToClipboard(String(lastConvertedRaw), copyBtn);
             });
         }
 
         function onAmountInput() {
-            // Strip non-numeric chars except dot
             let raw = amountInput.value.replace(/[^0-9.]/g, '');
-            // Ensure only one decimal point
             const parts = raw.split('.');
             if (parts.length > 2) {
                 raw = parts[0] + '.' + parts.slice(1).join('');
@@ -702,7 +727,6 @@
             const num = parseFloat(raw) || 0;
             currentAmount = num;
 
-            // Reformat with commas, preserving cursor
             const cursorPos = amountInput.selectionStart;
             const oldLen = amountInput.value.length;
             amountInput.value = formatAmountInput(raw);
@@ -723,7 +747,6 @@
             const dotIdx = str.indexOf('.');
             let intPart = dotIdx >= 0 ? str.slice(0, dotIdx) : str;
             const decPart = dotIdx >= 0 ? str.slice(dotIdx) : '';
-            // Add commas
             intPart = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
             return intPart + decPart;
         }
@@ -731,14 +754,13 @@
         function copyToClipboard(text, btn) {
             navigator.clipboard.writeText(text).then(() => {
                 const orig = btn.textContent;
-                btn.textContent = '已复制';
+                btn.textContent = '\u5df2\u590d\u5236';
                 btn.classList.add('copied');
                 setTimeout(() => {
                     btn.textContent = orig;
                     btn.classList.remove('copied');
                 }, 1200);
             }).catch(() => {
-                // Fallback for older browsers
                 try {
                     const ta = document.createElement('textarea');
                     ta.value = text;
@@ -749,22 +771,21 @@
                     document.execCommand('copy');
                     document.body.removeChild(ta);
                     const orig = btn.textContent;
-                    btn.textContent = '已复制';
+                    btn.textContent = '\u5df2\u590d\u5236';
                     btn.classList.add('copied');
                     setTimeout(() => {
                         btn.textContent = orig;
                         btn.classList.remove('copied');
                     }, 1200);
                 } catch {
-                    btn.textContent = '失败';
-                    setTimeout(() => { btn.textContent = '复制'; }, 1200);
+                    btn.textContent = '\u5931\u8d25';
+                    setTimeout(() => { btn.textContent = '\u590d\u5236'; }, 1200);
                 }
             });
         }
 
         // ===================== Fetch Rates =====================
         async function fetchRates() {
-            // Try multiple free APIs
             const apis = [
                 {
                     url: 'https://api.exchangerate-api.com/v4/latest/USD',
@@ -799,7 +820,6 @@
                 }
             }
 
-            // All APIs failed — use built-in
             isLive = false;
             updateStatus();
             buildRefCards();
@@ -808,46 +828,88 @@
         function updateStatus() {
             if (isLive) {
                 statusDot.className = 'dot live';
-                statusText.textContent = '实时汇率';
+                statusText.textContent = '\u5b9e\u65f6\u6c47\u7387';
                 footerNote.textContent = '';
             } else {
                 statusDot.className = 'dot builtin';
-                statusText.textContent = '内置汇率';
-                footerNote.textContent = `网络不可用，已使用内置汇率（${BUILTIN_DATE}）。重新联网后请刷新页面。`;
+                statusText.textContent = '\u5185\u7f6e\u6c47\u7387';
+                footerNote.textContent = `\u7f51\u7edc\u4e0d\u53ef\u7528\uff0c\u5df2\u4f7f\u7528\u5185\u7f6e\u6c47\u7387\uff08${BUILTIN_DATE}\uff09\u3002\u91cd\u65b0\u8054\u7f51\u540e\u8bf7\u5237\u65b0\u9875\u9762\u3002`;
             }
         }
 
         // ===================== Calculate =====================
         function calculate() {
             const from = fromCurrency.value;
-            const to = toCurrency.value;
             const amount = currentAmount;
-
             const fromRate = rates[from] || 1;
-            const toRate = rates[to] || 1;
-            const converted = (amount / fromRate) * toRate;
-            const unitRate = toRate / fromRate;
+            const dateSuffix = isLive ? '' : '\uff08\u5185\u7f6e\uff09';
 
-            // Format the converted result
-            const decimalPlaces = to === 'JPY' || to === 'KRW' ? 2 : 4;
-            const convertedStr = formatNumber(converted, decimalPlaces);
-            const amountStr = formatNumber(amount, 2);
-            const unitRateStr = formatRateNumber(unitRate);
+            resultCardsContainer.innerHTML = '';
 
-            // Animate digits
-            animateDigits(convertedStr);
+            targetCurrencies.forEach(toCode => {
+                const toRate = rates[toCode] || 1;
+                const converted = (amount / fromRate) * toRate;
+                const unitRate = toRate / fromRate;
 
-            // Store raw value for copy
-            lastConvertedRaw = converted;
+                const decimalPlaces = toCode === 'JPY' || toCode === 'KRW' ? 2 : 4;
+                const convertedStr = formatNumber(converted, decimalPlaces);
+                const amountStr = formatNumber(amount, 2);
+                const unitRateStr = formatRateNumber(unitRate);
 
-            resultCurrencyLabel.textContent = to;
-            resultDetail.textContent = `${amountStr} ${from} → ${convertedStr} ${to}`;
-            rateInfo.textContent = `汇率 1 ${from} = ${unitRateStr} ${to}`;
+                // Build result card
+                const card = document.createElement('div');
+                card.className = 'result-card';
 
-            const dateSuffix = isLive ? '' : '（内置）';
-            updateInfo.textContent = `更新 ${rateDate}${dateSuffix}`;
+                const amountRow = document.createElement('div');
+                amountRow.className = 'result-amount';
 
-            buildMultiCurrency();
+                const digitsEl = document.createElement('div');
+                digitsEl.className = 'result-digits';
+
+                const currLabel = document.createElement('span');
+                currLabel.className = 'result-currency-label';
+                currLabel.textContent = toCode;
+
+                const copyBtn = document.createElement('button');
+                copyBtn.className = 'copy-btn';
+                copyBtn.textContent = '\u590d\u5236';
+                copyBtn.title = '\u590d\u5236\u7ed3\u679c';
+                copyBtn.addEventListener('click', () => {
+                    copyToClipboard(String(converted), copyBtn);
+                });
+
+                amountRow.appendChild(digitsEl);
+                amountRow.appendChild(currLabel);
+                amountRow.appendChild(copyBtn);
+
+                const detail = document.createElement('div');
+                detail.className = 'result-detail';
+                detail.textContent = `${amountStr} ${from} \u2192 ${convertedStr} ${toCode}`;
+
+                const footer = document.createElement('div');
+                footer.className = 'result-footer';
+
+                const rateInfoSpan = document.createElement('span');
+                rateInfoSpan.className = 'rate-info';
+                rateInfoSpan.textContent = `\u6c47\u7387 1 ${from} = ${unitRateStr} ${toCode}`;
+
+                const updateInfoSpan = document.createElement('span');
+                updateInfoSpan.className = 'update-info';
+                updateInfoSpan.textContent = `\u66f4\u65b0 ${rateDate}${dateSuffix}`;
+
+                footer.appendChild(rateInfoSpan);
+                footer.appendChild(updateInfoSpan);
+
+                card.appendChild(amountRow);
+                card.appendChild(detail);
+                card.appendChild(footer);
+
+                resultCardsContainer.appendChild(card);
+
+                // Animate digits for this card
+                animateDigits(convertedStr, digitsEl, toCode);
+            });
+
             buildRefCards();
         }
 
@@ -859,25 +921,16 @@
         }
 
         function formatRateNumber(num) {
-            // Show 6 significant digits for exchange rate
             if (num >= 100) return num.toFixed(2);
             if (num >= 1) return num.toFixed(4);
             return num.toFixed(6);
         }
 
         // ===================== Digit Animation =====================
-        let prevDigitChars = [];
-
-        function animateDigits(text) {
+        function animateDigits(text, container, key) {
             const chars = text.split('');
-            const container = resultDigits;
+            const prevChars = prevDigitCharsMap.get(key) || [];
 
-            // If the container has no children yet, do initial render
-            if (container.children.length === 0) {
-                prevDigitChars = [];
-            }
-
-            // Build new children
             const fragment = document.createDocumentFragment();
             chars.forEach((ch, i) => {
                 if (/\d/.test(ch)) {
@@ -888,11 +941,10 @@
                     reel.className = 'digit-reel';
 
                     const targetDigit = parseInt(ch, 10);
-                    const prevChar = prevDigitChars[i];
+                    const prevChar = prevChars[i];
                     const prevDigit = prevChar !== undefined && /\d/.test(prevChar) ? parseInt(prevChar, 10) : null;
 
                     if (prevDigit !== null && prevDigit !== targetDigit) {
-                        // Create reel with digits to scroll through
                         const steps = buildScrollSequence(prevDigit, targetDigit);
                         steps.forEach(d => {
                             const s = document.createElement('span');
@@ -900,11 +952,9 @@
                             reel.appendChild(s);
                         });
 
-                        // Start at top, animate to bottom
                         reel.style.transform = 'translateY(0)';
                         slot.appendChild(reel);
 
-                        // Trigger animation
                         requestAnimationFrame(() => {
                             requestAnimationFrame(() => {
                                 const offset = -(steps.length - 1) * 1.15;
@@ -912,7 +962,6 @@
                             });
                         });
                     } else {
-                        // Static digit or same digit
                         const s = document.createElement('span');
                         s.textContent = ch;
                         reel.appendChild(s);
@@ -921,7 +970,6 @@
 
                     fragment.appendChild(slot);
                 } else {
-                    // Static char (comma, dot, space)
                     const span = document.createElement('span');
                     span.className = 'digit-static';
                     span.textContent = ch;
@@ -931,11 +979,10 @@
 
             container.innerHTML = '';
             container.appendChild(fragment);
-            prevDigitChars = chars;
+            prevDigitCharsMap.set(key, chars);
         }
 
         function buildScrollSequence(from, to) {
-            // Scroll through digits: from → ... → to (always scroll down, wrapping 9→0)
             const seq = [];
             let d = from;
             seq.push(String(d));
@@ -944,40 +991,6 @@
                 seq.push(String(d));
             }
             return seq;
-        }
-
-        // ===================== Multi-currency Results =====================
-        function buildMultiCurrency() {
-            const from = fromCurrency.value;
-            const to = toCurrency.value;
-            const amount = currentAmount;
-            const fromRate = rates[from] || 1;
-
-            multiCurrencyGrid.innerHTML = '';
-            CURRENCIES.forEach(c => {
-                // Skip the source currency and the primary target (already shown in result card)
-                if (c.code === from || c.code === to) return;
-
-                const toRate = rates[c.code] || 1;
-                const converted = (amount / fromRate) * toRate;
-                const decimalPlaces = c.code === 'JPY' || c.code === 'KRW' ? 2 : 4;
-                const convertedStr = formatNumber(converted, decimalPlaces);
-
-                const card = document.createElement('div');
-                card.className = 'multi-currency-card';
-                card.innerHTML = `
-                    <div class="mc-info">
-                        <span class="mc-code">${c.code} ${c.name}</span>
-                        <span class="mc-amount">${convertedStr}</span>
-                    </div>
-                    <button class="mc-copy-btn" title="复制">复制</button>
-                `;
-                const copyBtnEl = card.querySelector('.mc-copy-btn');
-                copyBtnEl.addEventListener('click', () => {
-                    copyToClipboard(String(converted), copyBtnEl);
-                });
-                multiCurrencyGrid.appendChild(card);
-            });
         }
 
         // ===================== Reference Cards =====================
@@ -991,14 +1004,25 @@
 
                 const card = document.createElement('div');
                 card.className = 'ref-card';
-                card.innerHTML = `
-                    <div class="pair-label">${pair.from}/${pair.to}</div>
-                    <div class="pair-rate">${rateStr}</div>
-                `;
+
+                const label = document.createElement('div');
+                label.className = 'pair-label';
+                label.textContent = `${pair.from}/${pair.to}`;
+
+                const rate = document.createElement('div');
+                rate.className = 'pair-rate';
+                rate.textContent = rateStr;
+
+                card.appendChild(label);
+                card.appendChild(rate);
                 card.style.cursor = 'pointer';
                 card.addEventListener('click', () => {
                     fromCurrency.value = pair.from;
-                    toCurrency.value = pair.to;
+                    ensureNoFromInTargets(pair.from);
+                    if (!targetCurrencies.includes(pair.to)) {
+                        targetCurrencies.push(pair.to);
+                    }
+                    buildTargetChips();
                     calculate();
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 });
