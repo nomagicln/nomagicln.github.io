@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>汇率计算器 - Nomagicln</title>
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #faf8f5;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            padding: 0;
+        }
+
+        .page-wrapper {
+            width: 100%;
+            max-width: 700px;
+            background: #fff;
+            min-height: 100vh;
+            padding: 40px 36px 48px;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.06);
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 36px;
+        }
+
+        .header h1 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .rate-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: #888;
+        }
+
+        .rate-status .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .rate-status .dot.live {
+            background: #22c55e;
+        }
+
+        .rate-status .dot.builtin {
+            background: #f59e0b;
+        }
+
+        /* Input row */
+        .input-row {
+            display: flex;
+            align-items: flex-end;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .field-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .field-group label {
+            font-size: 12px;
+            color: #888;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .field-group.amount {
+            flex: 1;
+        }
+
+        .field-group.currency {
+            width: 160px;
+        }
+
+        .amount-input {
+            width: 100%;
+            height: 48px;
+            border: 1.5px solid #e0dcd8;
+            border-radius: 8px;
+            padding: 0 14px;
+            font-size: 16px;
+            font-family: inherit;
+            color: #1a1a1a;
+            background: #fff;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .amount-input:focus {
+            border-color: #b8a58a;
+        }
+
+        .currency-select {
+            width: 100%;
+            height: 48px;
+            border: 1.5px solid #e0dcd8;
+            border-radius: 8px;
+            padding: 0 14px;
+            font-size: 15px;
+            font-family: inherit;
+            color: #1a1a1a;
+            background: #fff;
+            outline: none;
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23999' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .currency-select:focus {
+            border-color: #b8a58a;
+        }
+
+        .swap-btn {
+            width: 42px;
+            height: 48px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 20px;
+            color: #888;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s;
+            flex-shrink: 0;
+        }
+
+        .swap-btn:hover {
+            color: #333;
+        }
+
+        /* Result card */
+        .result-card {
+            background: #1a1a1a;
+            border-radius: 14px;
+            padding: 28px 28px 20px;
+            margin-bottom: 28px;
+            color: #fff;
+            overflow: hidden;
+        }
+
+        .result-amount {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+
+        .result-digits {
+            display: flex;
+            align-items: baseline;
+            font-size: 38px;
+            font-weight: 700;
+            font-family: "SF Mono", "Fira Code", "Fira Mono", "Roboto Mono", "Courier New", monospace;
+            letter-spacing: -0.5px;
+            line-height: 1;
+            overflow: hidden;
+        }
+
+        .digit-slot {
+            display: inline-block;
+            height: 1.15em;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .digit-slot .digit-reel {
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .digit-slot .digit-reel span {
+            display: block;
+            height: 1.15em;
+            line-height: 1.15em;
+            text-align: center;
+        }
+
+        .digit-static {
+            display: inline-block;
+            height: 1.15em;
+            line-height: 1.15em;
+        }
+
+        .result-currency-label {
+            font-size: 20px;
+            font-weight: 600;
+            opacity: 0.85;
+            margin-left: 2px;
+        }
+
+        .result-detail {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 16px;
+        }
+
+        .result-footer {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12.5px;
+            padding-top: 14px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .result-footer .rate-info {
+            color: #d4a054;
+        }
+
+        .result-footer .update-info {
+            color: #d4a054;
+        }
+
+        /* Presets */
+        .presets-section {
+            margin-bottom: 24px;
+        }
+
+        .presets-label {
+            font-size: 12px;
+            color: #c49a6c;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+
+        .presets-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .preset-btn {
+            height: 36px;
+            padding: 0 16px;
+            border: 1.5px solid #e0dcd8;
+            border-radius: 8px;
+            background: #fff;
+            font-size: 14px;
+            font-family: inherit;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .preset-btn:hover {
+            border-color: #b8a58a;
+            background: #fdfaf6;
+        }
+
+        .preset-btn.active {
+            border-color: #b8a58a;
+            background: #faf5ee;
+            color: #8b6914;
+        }
+
+        /* Reference cards */
+        .ref-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        .ref-card {
+            border: 1.5px solid #e8e4df;
+            border-radius: 10px;
+            padding: 14px 16px;
+            transition: border-color 0.2s;
+        }
+
+        .ref-card:hover {
+            border-color: #c9bfb0;
+        }
+
+        .ref-card .pair-label {
+            font-size: 11px;
+            color: #c49a6c;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            margin-bottom: 4px;
+        }
+
+        .ref-card .pair-rate {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1a1a;
+            font-family: "SF Mono", "Fira Code", "Fira Mono", "Roboto Mono", "Courier New", monospace;
+        }
+
+        /* Footer note */
+        .footer-note {
+            text-align: center;
+            font-size: 12.5px;
+            color: #c49a6c;
+            padding-top: 8px;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .page-wrapper {
+                padding: 24px 18px 36px;
+            }
+
+            .input-row {
+                flex-wrap: wrap;
+            }
+
+            .field-group.amount {
+                width: 100%;
+                flex: none;
+            }
+
+            .field-group.currency {
+                width: calc(50% - 26px);
+                flex: 1;
+            }
+
+            .swap-btn {
+                width: 32px;
+            }
+
+            .result-digits {
+                font-size: 26px;
+            }
+
+            .result-currency-label {
+                font-size: 16px;
+            }
+
+            .ref-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <!-- Header -->
+        <div class="header">
+            <h1>汇率计算器</h1>
+            <div class="rate-status">
+                <span class="dot builtin" id="statusDot"></span>
+                <span id="statusText">内置汇率</span>
+            </div>
+        </div>
+
+        <!-- Input Row -->
+        <div class="input-row">
+            <div class="field-group amount">
+                <label>金额 AMOUNT</label>
+                <input type="text" class="amount-input" id="amountInput" value="1" autocomplete="off">
+            </div>
+            <div class="field-group currency">
+                <label>从 FROM</label>
+                <select class="currency-select" id="fromCurrency"></select>
+            </div>
+            <button class="swap-btn" id="swapBtn" title="交换货币">⇄</button>
+            <div class="field-group currency">
+                <label>到 TO</label>
+                <select class="currency-select" id="toCurrency"></select>
+            </div>
+        </div>
+
+        <!-- Result Card -->
+        <div class="result-card">
+            <div class="result-amount">
+                <div class="result-digits" id="resultDigits"></div>
+                <span class="result-currency-label" id="resultCurrencyLabel">USD</span>
+            </div>
+            <div class="result-detail" id="resultDetail"></div>
+            <div class="result-footer">
+                <span class="rate-info" id="rateInfo"></span>
+                <span class="update-info" id="updateInfo"></span>
+            </div>
+        </div>
+
+        <!-- Presets -->
+        <div class="presets-section">
+            <div class="presets-label">快捷金额 PRESETS</div>
+            <div class="presets-row" id="presetsRow"></div>
+        </div>
+
+        <!-- Reference Cards -->
+        <div class="ref-grid" id="refGrid"></div>
+
+        <!-- Footer Note -->
+        <div class="footer-note" id="footerNote"></div>
+    </div>
+
+    <script>
+        // ===================== Configuration =====================
+        const CURRENCIES = [
+            { code: 'CNY', name: '人民币' },
+            { code: 'USD', name: '美元' },
+            { code: 'EUR', name: '欧元' },
+            { code: 'GBP', name: '英镑' },
+            { code: 'JPY', name: '日元' },
+            { code: 'HKD', name: '港币' },
+            { code: 'SGD', name: '新加坡元' },
+            { code: 'AUD', name: '澳元' },
+            { code: 'CAD', name: '加拿大元' },
+            { code: 'CHF', name: '瑞士法郎' },
+            { code: 'KRW', name: '韩元' },
+            { code: 'THB', name: '泰铢' },
+            { code: 'MYR', name: '马来西亚林吉特' },
+            { code: 'NZD', name: '新西兰元' },
+        ];
+
+        const PRESETS = [
+            { label: '1', value: 1 },
+            { label: '100', value: 100 },
+            { label: '1千', value: 1000 },
+            { label: '1万', value: 10000 },
+            { label: '10万', value: 100000 },
+            { label: '100万', value: 1000000 },
+            { label: '1千万', value: 10000000 },
+            { label: '1亿', value: 100000000 },
+            { label: '5亿', value: 500000000 },
+        ];
+
+        const REF_PAIRS = [
+            { from: 'CNY', to: 'USD' },
+            { from: 'CNY', to: 'HKD' },
+            { from: 'USD', to: 'EUR' },
+            { from: 'USD', to: 'JPY' },
+            { from: 'USD', to: 'SGD' },
+            { from: 'USD', to: 'GBP' },
+        ];
+
+        // Built-in fallback rates (base: USD) — updated 2026-03-27
+        const BUILTIN_DATE = '2026-03-27';
+        const BUILTIN_RATES = {
+            USD: 1,
+            CNY: 7.2855,
+            EUR: 1.0872,
+            GBP: 1.2847,
+            JPY: 149.72,
+            HKD: 7.7647,
+            SGD: 1.3592,
+            AUD: 1.5803,
+            CAD: 1.4312,
+            CHF: 0.8812,
+            KRW: 1452.35,
+            THB: 34.21,
+            MYR: 4.4450,
+            NZD: 1.7283,
+        };
+
+        // ===================== State =====================
+        let rates = { ...BUILTIN_RATES };
+        let rateDate = BUILTIN_DATE;
+        let isLive = false;
+        let currentAmount = 1;
+
+        // ===================== DOM refs =====================
+        const amountInput = document.getElementById('amountInput');
+        const fromCurrency = document.getElementById('fromCurrency');
+        const toCurrency = document.getElementById('toCurrency');
+        const swapBtn = document.getElementById('swapBtn');
+        const resultDigits = document.getElementById('resultDigits');
+        const resultCurrencyLabel = document.getElementById('resultCurrencyLabel');
+        const resultDetail = document.getElementById('resultDetail');
+        const rateInfo = document.getElementById('rateInfo');
+        const updateInfo = document.getElementById('updateInfo');
+        const statusDot = document.getElementById('statusDot');
+        const statusText = document.getElementById('statusText');
+        const presetsRow = document.getElementById('presetsRow');
+        const refGrid = document.getElementById('refGrid');
+        const footerNote = document.getElementById('footerNote');
+
+        // ===================== Init =====================
+        function init() {
+            populateCurrencySelects();
+            buildPresets();
+            fromCurrency.value = 'CNY';
+            toCurrency.value = 'USD';
+            amountInput.value = '1';
+            currentAmount = 1;
+            fetchRates();
+            calculate();
+            bindEvents();
+        }
+
+        function populateCurrencySelects() {
+            CURRENCIES.forEach(c => {
+                const opt1 = new Option(`${c.code} ${c.name}`, c.code);
+                const opt2 = new Option(`${c.code} ${c.name}`, c.code);
+                fromCurrency.add(opt1);
+                toCurrency.add(opt2);
+            });
+        }
+
+        function buildPresets() {
+            PRESETS.forEach(p => {
+                const btn = document.createElement('button');
+                btn.className = 'preset-btn';
+                btn.textContent = p.label;
+                btn.dataset.value = p.value;
+                btn.addEventListener('click', () => {
+                    currentAmount = p.value;
+                    amountInput.value = formatAmountInput(p.value);
+                    highlightPreset(p.value);
+                    calculate();
+                });
+                presetsRow.appendChild(btn);
+            });
+            highlightPreset(1);
+        }
+
+        function highlightPreset(value) {
+            document.querySelectorAll('.preset-btn').forEach(btn => {
+                btn.classList.toggle('active', Number(btn.dataset.value) === value);
+            });
+        }
+
+        // ===================== Events =====================
+        function bindEvents() {
+            amountInput.addEventListener('input', onAmountInput);
+            amountInput.addEventListener('focus', () => {
+                // Select all text on focus for convenience
+                setTimeout(() => amountInput.select(), 0);
+            });
+            fromCurrency.addEventListener('change', calculate);
+            toCurrency.addEventListener('change', calculate);
+            swapBtn.addEventListener('click', () => {
+                const tmp = fromCurrency.value;
+                fromCurrency.value = toCurrency.value;
+                toCurrency.value = tmp;
+                calculate();
+            });
+        }
+
+        function onAmountInput() {
+            // Strip non-numeric chars except dot
+            let raw = amountInput.value.replace(/[^0-9.]/g, '');
+            // Ensure only one decimal point
+            const parts = raw.split('.');
+            if (parts.length > 2) {
+                raw = parts[0] + '.' + parts.slice(1).join('');
+            }
+            const num = parseFloat(raw) || 0;
+            currentAmount = num;
+
+            // Reformat with commas, preserving cursor
+            const cursorPos = amountInput.selectionStart;
+            const oldLen = amountInput.value.length;
+            amountInput.value = formatAmountInput(raw);
+            const newLen = amountInput.value.length;
+            const newPos = Math.max(0, cursorPos + (newLen - oldLen));
+            amountInput.setSelectionRange(newPos, newPos);
+
+            highlightPreset(num);
+            calculate();
+        }
+
+        function formatAmountInput(val) {
+            if (typeof val === 'number') {
+                if (Number.isInteger(val)) return val.toLocaleString('en-US');
+                return val.toLocaleString('en-US', { maximumFractionDigits: 10 });
+            }
+            const str = String(val);
+            const dotIdx = str.indexOf('.');
+            let intPart = dotIdx >= 0 ? str.slice(0, dotIdx) : str;
+            const decPart = dotIdx >= 0 ? str.slice(dotIdx) : '';
+            // Add commas
+            intPart = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            return intPart + decPart;
+        }
+
+        // ===================== Fetch Rates =====================
+        async function fetchRates() {
+            // Try multiple free APIs
+            const apis = [
+                {
+                    url: 'https://api.exchangerate-api.com/v4/latest/USD',
+                    parse: data => ({ rates: data.rates, date: data.date }),
+                },
+                {
+                    url: 'https://open.er-api.com/v6/latest/USD',
+                    parse: data => ({ rates: data.rates, date: data.time_last_update_utc ? data.time_last_update_utc.slice(0, 10) : BUILTIN_DATE }),
+                },
+            ];
+
+            for (const api of apis) {
+                try {
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 8000);
+                    const res = await fetch(api.url, { signal: controller.signal });
+                    clearTimeout(timeoutId);
+                    if (!res.ok) continue;
+                    const data = await res.json();
+                    const parsed = api.parse(data);
+                    if (parsed.rates && parsed.rates.CNY) {
+                        rates = parsed.rates;
+                        rateDate = parsed.date || BUILTIN_DATE;
+                        isLive = true;
+                        updateStatus();
+                        calculate();
+                        buildRefCards();
+                        return;
+                    }
+                } catch {
+                    // Try next API
+                }
+            }
+
+            // All APIs failed — use built-in
+            isLive = false;
+            updateStatus();
+            buildRefCards();
+        }
+
+        function updateStatus() {
+            if (isLive) {
+                statusDot.className = 'dot live';
+                statusText.textContent = '实时汇率';
+                footerNote.textContent = '';
+            } else {
+                statusDot.className = 'dot builtin';
+                statusText.textContent = '内置汇率';
+                footerNote.textContent = `网络不可用，已使用内置汇率（${BUILTIN_DATE}）。重新联网后请刷新页面。`;
+            }
+        }
+
+        // ===================== Calculate =====================
+        function calculate() {
+            const from = fromCurrency.value;
+            const to = toCurrency.value;
+            const amount = currentAmount;
+
+            const fromRate = rates[from] || 1;
+            const toRate = rates[to] || 1;
+            const converted = (amount / fromRate) * toRate;
+            const unitRate = toRate / fromRate;
+
+            // Format the converted result
+            const decimalPlaces = to === 'JPY' || to === 'KRW' ? 2 : 4;
+            const convertedStr = formatNumber(converted, decimalPlaces);
+            const amountStr = formatNumber(amount, 2);
+            const unitRateStr = formatRateNumber(unitRate);
+
+            // Animate digits
+            animateDigits(convertedStr);
+
+            resultCurrencyLabel.textContent = to;
+            resultDetail.textContent = `${amountStr} ${from} → ${convertedStr} ${to}`;
+            rateInfo.textContent = `汇率 1 ${from} = ${unitRateStr} ${to}`;
+
+            const dateSuffix = isLive ? '' : '（内置）';
+            updateInfo.textContent = `更新 ${rateDate}${dateSuffix}`;
+
+            buildRefCards();
+        }
+
+        function formatNumber(num, decimals) {
+            return num.toLocaleString('en-US', {
+                minimumFractionDigits: decimals,
+                maximumFractionDigits: decimals,
+            });
+        }
+
+        function formatRateNumber(num) {
+            // Show 6 significant digits for exchange rate
+            if (num >= 100) return num.toFixed(2);
+            if (num >= 1) return num.toFixed(4);
+            return num.toFixed(6);
+        }
+
+        // ===================== Digit Animation =====================
+        let prevDigitChars = [];
+
+        function animateDigits(text) {
+            const chars = text.split('');
+            const container = resultDigits;
+
+            // If the container has no children yet, do initial render
+            if (container.children.length === 0) {
+                prevDigitChars = [];
+            }
+
+            // Build new children
+            const fragment = document.createDocumentFragment();
+            chars.forEach((ch, i) => {
+                if (/\d/.test(ch)) {
+                    const slot = document.createElement('span');
+                    slot.className = 'digit-slot';
+
+                    const reel = document.createElement('span');
+                    reel.className = 'digit-reel';
+
+                    const targetDigit = parseInt(ch, 10);
+                    const prevChar = prevDigitChars[i];
+                    const prevDigit = prevChar !== undefined && /\d/.test(prevChar) ? parseInt(prevChar, 10) : null;
+
+                    if (prevDigit !== null && prevDigit !== targetDigit) {
+                        // Create reel with digits to scroll through
+                        const steps = buildScrollSequence(prevDigit, targetDigit);
+                        steps.forEach(d => {
+                            const s = document.createElement('span');
+                            s.textContent = d;
+                            reel.appendChild(s);
+                        });
+
+                        // Start at top, animate to bottom
+                        reel.style.transform = 'translateY(0)';
+                        slot.appendChild(reel);
+
+                        // Trigger animation
+                        requestAnimationFrame(() => {
+                            requestAnimationFrame(() => {
+                                const offset = -(steps.length - 1) * 1.15;
+                                reel.style.transform = `translateY(${offset}em)`;
+                            });
+                        });
+                    } else {
+                        // Static digit or same digit
+                        const s = document.createElement('span');
+                        s.textContent = ch;
+                        reel.appendChild(s);
+                        slot.appendChild(reel);
+                    }
+
+                    fragment.appendChild(slot);
+                } else {
+                    // Static char (comma, dot, space)
+                    const span = document.createElement('span');
+                    span.className = 'digit-static';
+                    span.textContent = ch;
+                    fragment.appendChild(span);
+                }
+            });
+
+            container.innerHTML = '';
+            container.appendChild(fragment);
+            prevDigitChars = chars;
+        }
+
+        function buildScrollSequence(from, to) {
+            // Scroll through digits: from → ... → to (always scroll down, wrapping 9→0)
+            const seq = [];
+            let d = from;
+            seq.push(String(d));
+            while (d !== to) {
+                d = (d + 1) % 10;
+                seq.push(String(d));
+            }
+            return seq;
+        }
+
+        // ===================== Reference Cards =====================
+        function buildRefCards() {
+            refGrid.innerHTML = '';
+            REF_PAIRS.forEach(pair => {
+                const fromRate = rates[pair.from] || 1;
+                const toRate = rates[pair.to] || 1;
+                const pairRate = toRate / fromRate;
+                const rateStr = formatRateNumber(pairRate);
+
+                const card = document.createElement('div');
+                card.className = 'ref-card';
+                card.innerHTML = `
+                    <div class="pair-label">${pair.from}/${pair.to}</div>
+                    <div class="pair-rate">${rateStr}</div>
+                `;
+                card.style.cursor = 'pointer';
+                card.addEventListener('click', () => {
+                    fromCurrency.value = pair.from;
+                    toCurrency.value = pair.to;
+                    calculate();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+                refGrid.appendChild(card);
+            });
+        }
+
+        // ===================== Boot =====================
+        updateStatus();
+        init();
+    </script>
+</body>
+
+</html>
