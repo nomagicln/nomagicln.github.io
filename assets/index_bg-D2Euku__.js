@@ -1,1 +1,0 @@
-var e=`/assets/index_bg-Blvrv-U2.wasm`;export{e as default};
