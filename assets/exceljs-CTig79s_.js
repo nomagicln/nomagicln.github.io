@@ -1,0 +1,2 @@
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/exceljs.min-iCmYZuIw.js","assets/chunk-DseTPa7n.js"])))=>i.map(i=>d[i]);
+import{i as e}from"./chunk-DseTPa7n.js";import{t}from"./preload-helper-D4M6sveU.js";var n=null;function r(){return n||=t(()=>import(`./exceljs.min-iCmYZuIw.js`).then(t=>e(t.default,1)),__vite__mapDeps([0,1])),n}export{r as t};
