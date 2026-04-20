@@ -81,9 +81,9 @@
       const nameLink = links[0];
       const chipLink = links.find((a) => a !== nameLink);
 
-      const sourceUrl = new URL(nameLink.getAttribute("href"), location.origin).toString();
-      const m = sourceUrl.match(/\.c(\d+)$/);
-      const id = m ? `c${m[1]}` : sourceUrl;
+      const detailUrl = new URL(nameLink.getAttribute("href"), location.origin).toString();
+      const m = detailUrl.match(/\.c(\d+)$/);
+      const id = m ? `c${m[1]}` : detailUrl;
       if (store.items[id]) continue;
 
       const name = text(nameLink);
@@ -101,8 +101,6 @@
         id,
         name,
         category,
-        source: "techpowerup",
-        sourceUrl,
         releaseDate: releaseDateMeta.releaseDate,
         releaseDateRaw: releaseDateMeta.releaseDateRaw,
         releaseDatePrecision: releaseDateMeta.releaseDatePrecision,
@@ -120,7 +118,6 @@
 
   store.runs.push({
     at: new Date().toISOString(),
-    url: location.href,
     added,
     total: Object.keys(store.items).length,
   });

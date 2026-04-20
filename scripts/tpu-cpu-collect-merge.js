@@ -103,9 +103,9 @@
       const nameLink = tds[0].querySelector('a[href*="/cpu-specs/"]');
       if (!nameLink) continue;
 
-      const sourceUrl = new URL(nameLink.getAttribute("href"), location.origin).toString();
-      const m = sourceUrl.match(/\.c(\d+)$/);
-      const id = m ? `c${m[1]}` : sourceUrl;
+      const detailUrl = new URL(nameLink.getAttribute("href"), location.origin).toString();
+      const m = detailUrl.match(/\.c(\d+)$/);
+      const id = m ? `c${m[1]}` : detailUrl;
       if (store.items[id]) continue;
 
       const name = text(nameLink);
@@ -114,8 +114,6 @@
       store.items[id] = {
         id,
         name,
-        source: "techpowerup",
-        sourceUrl,
         codename: text(tds[1]),
         coresThreads: text(tds[2]),
         clock: text(tds[3]),
@@ -134,7 +132,6 @@
 
   store.runs.push({
     at: new Date().toISOString(),
-    url: location.href,
     added,
     total: Object.keys(store.items).length,
   });

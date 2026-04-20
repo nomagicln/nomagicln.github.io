@@ -1,13 +1,28 @@
 (() => {
   const KEY = "__tpu_cpu_merge_v1";
   const store = JSON.parse(localStorage.getItem(KEY) || '{"items":{},"runs":[]}');
-  const items = Object.values(store.items);
+
+  const items = Object.values(store.items).map((item) => {
+    const next = { ...item };
+    delete next.source;
+    delete next.sourceUrl;
+    return next;
+  });
+
+  const runs = Array.isArray(store.runs)
+    ? store.runs.map((run) => {
+        const next = { ...run };
+        delete next.url;
+        delete next.source;
+        delete next.sourceUrl;
+        return next;
+      })
+    : [];
 
   const data = {
     generatedAt: new Date().toISOString(),
-    source: "https://www.techpowerup.com/cpu-specs/",
     total: items.length,
-    runs: store.runs,
+    runs,
     items,
   };
 
