@@ -1711,7 +1711,7 @@
       "memoryGB": 80,
       "memoryType": "HBM2e",
       "interface": "PCIe 4.0 x16",
-      "interconnect": "PCIe Only",
+      "interconnect": "NVLink",
       "tdpW": 250,
       "slotWidth": "双宽",
       "formFactor": "Dual Slot Passive",
@@ -1722,14 +1722,16 @@
       "aiPerf": {
         "peak": {
           "fp32": 19.5,
-          "tf32": 156,
-          "fp16": 312,
-          "bf16": 312,
-          "int8": 624
+          "tf32": 312,
+          "fp16": 624,
+          "bf16": 624,
+          "int8": 1248,
+          "fp64": 9.7
         },
         "unit": "TFLOPS",
         "source": "manual-curated"
-      }
+      },
+      "memoryBandwidthGBps": 2039
     },
     {
       "id": "c3579",
@@ -2327,11 +2329,24 @@
       "tdpW": 250,
       "slotWidth": "双宽",
       "formFactor": "Dual Slot Passive",
-      "interconnect": "PCIe Only",
+      "interconnect": "NVLink",
       "useCase": [
         "训练",
         "高性能计算"
-      ]
+      ],
+      "memoryBandwidthGBps": 1935,
+      "aiPerf": {
+        "peak": {
+          "fp64": 9.7,
+          "fp32": 19.5,
+          "tf32": 156,
+          "fp16": 312,
+          "bf16": 312,
+          "int8": 624
+        },
+        "unit": "TFLOPS",
+        "source": "manual-curated"
+      }
     },
     {
       "id": "c3962",
@@ -13298,14 +13313,28 @@
       "memoryGB": 94,
       "memoryType": "HBM3",
       "interface": "PCIe 5.0 x16",
-      "interconnect": "PCIe Only",
+      "interconnect": "NVLink",
       "tdpW": 350,
       "slotWidth": "双宽",
       "formFactor": "Dual Slot Passive",
       "useCase": [
         "训练",
         "高性能计算"
-      ]
+      ],
+      "memoryBandwidthGBps": 3900,
+      "aiPerf": {
+        "peak": {
+          "fp64": 30,
+          "fp32": 60,
+          "tf32": 835,
+          "fp16": 1671,
+          "bf16": 1671,
+          "fp8": 3341,
+          "int8": 3341
+        },
+        "unit": "TFLOPS",
+        "source": "manual-curated"
+      }
     },
     {
       "id": "c4165",
@@ -13356,7 +13385,7 @@
       "memoryGB": 80,
       "memoryType": "HBM3",
       "interface": "PCIe 5.0 x16",
-      "interconnect": "PCIe Only",
+      "interconnect": "NVLink",
       "tdpW": 350,
       "slotWidth": "双宽",
       "formFactor": "Dual Slot Passive",
@@ -13367,15 +13396,17 @@
       "aiPerf": {
         "peak": {
           "fp32": 67,
-          "tf32": 494.5,
-          "fp16": 989.5,
-          "bf16": 989.5,
-          "fp8": 1979,
-          "int8": 1979
+          "tf32": 989,
+          "fp16": 1979,
+          "bf16": 1979,
+          "fp8": 3958,
+          "int8": 3958,
+          "fp64": 34
         },
         "unit": "TFLOPS",
         "source": "manual-curated"
-      }
+      },
+      "memoryBandwidthGBps": 3350
     },
     {
       "id": "c4294",
@@ -13504,7 +13535,21 @@
       "useCase": [
         "训练",
         "高性能计算"
-      ]
+      ],
+      "memoryBandwidthGBps": 4800,
+      "aiPerf": {
+        "peak": {
+          "fp64": 30,
+          "fp32": 60,
+          "tf32": 835,
+          "fp16": 1671,
+          "bf16": 1671,
+          "fp8": 3341,
+          "int8": 3341
+        },
+        "unit": "TFLOPS",
+        "source": "manual-curated"
+      }
     },
     {
       "id": "c4255",
@@ -13537,15 +13582,17 @@
       "aiPerf": {
         "peak": {
           "fp32": 67,
-          "tf32": 494.5,
-          "fp16": 989.5,
-          "bf16": 989.5,
-          "fp8": 1979,
-          "int8": 1979
+          "tf32": 989,
+          "fp16": 1979,
+          "bf16": 1979,
+          "fp8": 3958,
+          "int8": 3958,
+          "fp64": 34
         },
         "unit": "TFLOPS",
         "source": "manual-curated"
-      }
+      },
+      "memoryBandwidthGBps": 4800
     },
     {
       "id": "c2359",
