@@ -1,0 +1,2 @@
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/vendor-exceljs-CVGcHvDQ.js","assets/rolldown-runtime-B1FJdls4.js"])))=>i.map(i=>d[i]);
+import{i as e}from"./rolldown-runtime-B1FJdls4.js";import{t}from"./preload-helper-rov5CBGT.js";var n=null;function r(){return n||=t(()=>import(`./vendor-exceljs-CVGcHvDQ.js`).then(t=>e(t.t(),1)),__vite__mapDeps([0,1])),n}export{r as t};
