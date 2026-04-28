@@ -1,0 +1,1 @@
+import{_ as e}from"./types-M4XUR-BO.js";import"./AgentSidebar-BkotAq4T.js";import"./rfpApplier-Da07V_rr.js";function t(e){let t=e.getState();return{pageType:e.pageType,pageTitle:e.pageTitle,pageRoute:e.pageRoute,pageState:t??void 0,tools:e.getTools(),proposalApplier:e.proposalApplier,welcomeQuickActions:e.getQuickActions?.()??[]}}function n(n){e(n?t(n):null)}export{n as t};
