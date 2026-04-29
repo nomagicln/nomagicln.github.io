@@ -1,0 +1,1 @@
+import{y as e}from"./date-picker-FxR4wS2F.js";import"./AgentSidebar-gQ9AS3wB.js";import"./rfpApplier-BtBybTtz.js";function t(e){let t=e.getState();return{pageType:e.pageType,pageTitle:e.pageTitle,pageRoute:e.pageRoute,pageState:t??void 0,tools:e.getTools(),proposalApplier:e.proposalApplier,welcomeQuickActions:e.getQuickActions?.()??[]}}function n(n){e(n?t(n):null)}export{n as t};
