@@ -1,0 +1,1 @@
+function e(){return typeof window<`u`&&`__TAURI_INTERNALS__`in window}export{e as t};
